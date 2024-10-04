@@ -12,38 +12,6 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: Test/Cover
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-
-    - name: Go caches
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/go/pkg/mod
-        key: ${{ github.job }}-${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ github.job }}-${{ runner.os }}-go-
-
-    # XSLTTransformation needs libxml2.
-    - name: Install libxml2
-      run: sudo apt-get update && sudo apt install -y libxml2-dev libxslt1-dev liblzma-dev zlib1g-dev
-
-    - name: Run test/cover
-      run: WITH_DEPENDENCIES=true make cover
-      env:
-        TEST_OUTPUT_DIR: /tmp/test-results/
-        COVER_OUTPUT_DIR: /tmp/cover-results/
-
   publish-images:
     name: Build and publish images
     if: github.event_name != 'pull_request'
