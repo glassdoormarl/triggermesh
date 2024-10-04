@@ -48,7 +48,7 @@ jobs:
 
     - name: Publish container images to GCR
       env:
-        KO_DOCKER_REPO: ''
+        KO_DOCKER_REPO: ko.local
         DIST_DIR: /tmp/dist
       run: |
         pushd hack/manifest-cleaner
